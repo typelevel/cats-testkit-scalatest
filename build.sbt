@@ -44,7 +44,7 @@ lazy val commonSettings = Seq(
   organization := "org.typelevel",
 
   scalaVersion := "2.13.0",
-  crossScalaVersions := Seq(scalaVersion.value, "2.12.9"),
+  crossScalaVersions := Seq(scalaVersion.value, "2.12.9", "2.11.12"),
 
   scalacOptions in (Compile, doc) ++= Seq(
       "-groups",
@@ -56,10 +56,10 @@ lazy val commonSettings = Seq(
   addCompilerPlugin("org.typelevel" % "kind-projector" % kindProjectorV cross CrossVersion.binary),
   addCompilerPlugin("com.olegpy"    %% "better-monadic-for" % betterMonadicForV),
   libraryDependencies ++= Seq(
-    "org.typelevel"       %% "cats-laws"  % catsV,
-    "org.scalatest"       %% "scalatest" % scalatestVersion,
-    "org.scalatestplus"   %% "scalatestplus-scalacheck" % scalatestplusScalaCheckVersion,
-    "org.typelevel"       %% "discipline-scalatest" % disciplineScalatestVersion
+    "org.typelevel"       %%% "cats-laws"                % catsV,
+    "org.scalatest"       %%% "scalatest"                % scalatestVersion,
+    "org.scalatestplus"   %%% "scalatestplus-scalacheck" % scalatestplusScalaCheckVersion,
+    "org.typelevel"       %%% "discipline-scalatest"     % disciplineScalatestVersion
   )
 )
 
