@@ -3,18 +3,23 @@ import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType}
 lazy val `cats-testkit-scalatest` = project.in(file("."))
   .disablePlugins(MimaPlugin)
   .settings(commonSettings, releaseSettings, skipOnPublishSettings)
-  .aggregate(core)
+  .aggregate(coreJVM, coreJS)
 
-lazy val core = project.in(file("core"))
+lazy val core = crossProject(JSPlatform, JVMPlatform)
+  .crossType(CrossType.Pure)
+  .in(file("core"))
   .settings(commonSettings, releaseSettings, mimaSettings)
   .settings(
     name := "cats-testkit-scalatest"
   )
 
+lazy val coreJVM = core.jvm
+lazy val coreJS = core.js
+
 lazy val docs = project.in(file("docs"))
   .disablePlugins(MimaPlugin)
   .settings(commonSettings, skipOnPublishSettings, micrositeSettings)
-  .dependsOn(core)
+  .dependsOn(coreJVM)
   .enablePlugins(MicrositesPlugin)
   .enablePlugins(TutPlugin)
 
