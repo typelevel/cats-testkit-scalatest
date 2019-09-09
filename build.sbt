@@ -38,7 +38,7 @@ lazy val contributors = Seq(
 
 val catsV = "2.0.0-RC2"
 val scalatestVersion = "3.1.0-SNAP13"
-val scalatestplusScalaCheckVersion = "1.0.0-SNAP8"
+val scalatestplusScalaCheckVersion = "3.1.0.0-RC2"
 val disciplineScalatestVersion = "1.0.0-M1"
 
 val kindProjectorV = "0.10.3"
