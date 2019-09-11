@@ -36,7 +36,7 @@ lazy val contributors = Seq(
   "ChristopherDavenport" -> "Christopher Davenport"
 )
 
-val catsV = "2.0.0-RC3"
+val catsV = "2.0.0"
 val scalatestVersion = "3.1.0-RC2"
 val scalatestplusScalaCheckVersion = "3.1.0.0-RC2"
 val disciplineScalatestVersion = "1.0.0-M1"
