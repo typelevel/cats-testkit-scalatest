@@ -37,9 +37,7 @@ lazy val contributors = Seq(
 )
 
 val catsV = "2.0.0"
-val scalatestVersion = "3.1.0-RC3"
-val scalatestplusScalaCheckVersion = "3.1.0.0-RC2"
-val disciplineScalatestVersion = "1.0.0-M1"
+val disciplineScalatestVersion = "1.0.0-RC1"
 
 val kindProjectorV = "0.10.3"
 val betterMonadicForV = "0.3.1"
@@ -57,13 +55,10 @@ lazy val commonSettings = Seq(
       "-doc-source-url", "https://github.com/typelevel/cats-testkit-scalatest/blob/v" + version.value + "€{FILE_PATH}.scala"
   ),
 
-  resolvers ++= Seq(Resolver.sonatypeRepo("releases"), Resolver.sonatypeRepo("snapshots")),
   addCompilerPlugin("org.typelevel" % "kind-projector" % kindProjectorV cross CrossVersion.binary),
   addCompilerPlugin("com.olegpy"    %% "better-monadic-for" % betterMonadicForV),
   libraryDependencies ++= Seq(
     "org.typelevel"       %%% "cats-laws"                % catsV,
-    "org.scalatest"       %%% "scalatest"                % scalatestVersion,
-    "org.scalatestplus"   %%% "scalatestplus-scalacheck" % scalatestplusScalaCheckVersion,
     "org.typelevel"       %%% "discipline-scalatest"     % disciplineScalatestVersion
   )
 )
