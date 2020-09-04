@@ -36,7 +36,7 @@ lazy val contributors = Seq(
   "ChristopherDavenport" -> "Christopher Davenport"
 )
 
-val catsV = "2.1.1"
+val catsV = "2.2.0"
 val disciplineScalatestVersion = "2.0.1"
 
 // General Settings
