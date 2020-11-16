@@ -1,4 +1,31 @@
-import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType}
+val Scala212 = "2.12.12"
+
+ThisBuild / crossScalaVersions := Seq(Scala212, "2.13.3")
+ThisBuild / scalaVersion := crossScalaVersions.value.last
+
+val MicrositesCond = s"matrix.scala == '$Scala212'"
+
+ThisBuild / githubWorkflowPublishTargetBranches := Seq()
+
+ThisBuild / githubWorkflowBuildPreamble ++= Seq(
+  WorkflowStep.Use(
+    "ruby",
+    "setup-ruby",
+    "v1",
+    params = Map("ruby-version" -> "2.6"),
+    cond = Some(MicrositesCond)
+  ),
+  WorkflowStep.Run(List("gem install sass"), cond = Some(MicrositesCond)),
+  WorkflowStep.Run(List("gem install jekyll -v 3.2.1"), cond = Some(MicrositesCond))
+)
+
+ThisBuild / githubWorkflowBuild := Seq(
+  WorkflowStep.Sbt(
+    List("test", "mimaReportBinaryIssues"),
+    name = Some("Validate unit tests and binary compatibility")
+  ),
+  WorkflowStep.Sbt(List("docs/makeMicrosite"), cond = Some(MicrositesCond))
+)
 
 lazy val `cats-testkit-scalatest` = project.in(file("."))
   .disablePlugins(MimaPlugin)
