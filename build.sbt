@@ -1,7 +1,7 @@
 val Scala212 = "2.12.12"
 
-ThisBuild / crossScalaVersions := Seq(Scala212, "2.13.3")
-ThisBuild / scalaVersion := crossScalaVersions.value.last
+ThisBuild / crossScalaVersions := Seq(Scala212, "2.13.3", "3.0.0-M1")
+ThisBuild / scalaVersion := Scala212
 
 val MicrositesCond = s"matrix.scala == '$Scala212'"
 
@@ -30,6 +30,7 @@ ThisBuild / githubWorkflowBuild := Seq(
 lazy val `cats-testkit-scalatest` = project.in(file("."))
   .disablePlugins(MimaPlugin)
   .settings(commonSettings, releaseSettings, skipOnPublishSettings)
+  .settings(crossScalaVersions := Seq())
   .aggregate(coreJVM, coreJS)
 
 lazy val core = crossProject(JSPlatform, JVMPlatform)
@@ -39,6 +40,9 @@ lazy val core = crossProject(JSPlatform, JVMPlatform)
   .settings(
     name := "cats-testkit-scalatest"
   )
+  .jsSettings(
+    crossScalaVersions := crossScalaVersions.value.filter(_.startsWith("2."))
+  )
 
 lazy val coreJVM = core.jvm
 lazy val coreJS = core.js
@@ -46,6 +50,9 @@ lazy val coreJS = core.js
 lazy val docs = project.in(file("docs"))
   .disablePlugins(MimaPlugin)
   .settings(commonSettings, skipOnPublishSettings, micrositeSettings)
+  .settings(
+    crossScalaVersions := crossScalaVersions.value.filter(_.startsWith("2."))
+  )
   .dependsOn(coreJVM)
   .enablePlugins(MicrositesPlugin)
   .enablePlugins(TutPlugin)
@@ -63,7 +70,7 @@ lazy val contributors = Seq(
   "ChristopherDavenport" -> "Christopher Davenport"
 )
 
-val catsV = "2.2.0"
+val catsV = "2.3.0-M2"
 val disciplineScalatestVersion = "2.1.0"
 
 // General Settings
@@ -79,7 +86,14 @@ lazy val commonSettings = Seq(
   libraryDependencies ++= Seq(
     "org.typelevel"       %%% "cats-laws"                % catsV,
     "org.typelevel"       %%% "discipline-scalatest"     % disciplineScalatestVersion
-  )
+  ),
+  Compile / doc / sources := {
+    val old = (Compile / doc / sources).value
+    if (isDotty.value)
+      Seq()
+    else
+      old
+  }
 )
 
 lazy val releaseSettings = {
@@ -189,12 +203,17 @@ lazy val mimaSettings = {
   Seq(
     mimaFailOnNoPrevious := false,
     mimaFailOnProblem := mimaVersions(version.value).toList.headOption.isDefined,
-    mimaPreviousArtifacts := (mimaVersions(version.value) ++ extraVersions)
-      .filterNot(excludedVersions.contains(_))
-      .map{v =>
-        val moduleN = moduleName.value + "_" + scalaBinaryVersion.value.toString
-        organization.value % moduleN % v
-      },
+    mimaPreviousArtifacts := {
+      if (isDotty.value)
+        Set()
+      else
+        (mimaVersions(version.value) ++ extraVersions)
+          .filterNot(excludedVersions.contains(_))
+          .map{v =>
+            val moduleN = moduleName.value + "_" + scalaBinaryVersion.value.toString
+            organization.value % moduleN % v
+          }
+    },
     mimaBinaryIssueFilters ++= {
       import com.typesafe.tools.mima.core._
       import com.typesafe.tools.mima.core.ProblemFilters._
