@@ -55,7 +55,6 @@ lazy val docs = project.in(file("docs"))
   )
   .dependsOn(coreJVM)
   .enablePlugins(MicrositesPlugin)
-  .enablePlugins(TutPlugin)
 
 lazy val contributors = Seq(
   "rossabaker" -> "Ross A Baker",
@@ -244,15 +243,6 @@ lazy val micrositeSettings = {
       "gray-light" -> "#E5E5E6",
       "gray-lighter" -> "#F4F3F4",
       "white-color" -> "#FFFFFF"
-    ),
-    fork in tut := true,
-    scalacOptions in Tut --= Seq(
-      "-Xfatal-warnings",
-      "-Ywarn-unused-import",
-      "-Ywarn-numeric-widen",
-      "-Ywarn-dead-code",
-      "-Ywarn-unused:imports",
-      "-Xlint:-missing-interpolator,_"
     ),
     libraryDependencies += "com.47deg" %% "github4s" % "0.20.1",
     micrositePushSiteWith := GitHub4s,
