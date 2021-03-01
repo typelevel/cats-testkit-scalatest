@@ -1,4 +1,4 @@
-val Scala212 = "2.12.12"
+val Scala212 = "2.12.13"
 
 ThisBuild / crossScalaVersions := Seq(Scala212, "2.13.5", "3.0.0-RC1")
 ThisBuild / scalaVersion := Scala212
