@@ -1,6 +1,6 @@
 val Scala212 = "2.12.13"
 
-ThisBuild / crossScalaVersions := Seq(Scala212, "2.13.5", "3.0.0-RC1")
+ThisBuild / crossScalaVersions := Seq(Scala212, "2.13.5", "3.0.0-RC2")
 ThisBuild / scalaVersion := Scala212
 
 val MicrositesCond = s"matrix.scala == '$Scala212'"
@@ -38,9 +38,6 @@ lazy val core = crossProject(JSPlatform, JVMPlatform)
   .settings(
     name := "cats-testkit-scalatest"
   )
-  .jsSettings(
-    crossScalaVersions := crossScalaVersions.value.filter(_.startsWith("2."))
-  )
 
 lazy val coreJVM = core.jvm
 lazy val coreJS = core.js
@@ -68,7 +65,7 @@ lazy val contributors = Seq(
 )
 
 val catsV = "2.5.0"
-val disciplineScalatestVersion = "2.1.2"
+val disciplineScalatestVersion = "2.1.3"
 
 // General Settings
 lazy val commonSettings = Seq(
