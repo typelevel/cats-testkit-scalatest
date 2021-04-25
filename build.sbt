@@ -191,7 +191,7 @@ lazy val mimaSettings = {
     mimaFailOnNoPrevious := false,
     mimaFailOnProblem := mimaVersions(version.value).toList.headOption.isDefined,
     mimaPreviousArtifacts := {
-      if (isDotty.value)
+      if (scalaVersion.value.startsWith("3"))
         Set()
       else
         (mimaVersions(version.value) ++ extraVersions)
