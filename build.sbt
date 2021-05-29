@@ -1,6 +1,6 @@
-val Scala212 = "2.12.13"
+val Scala212 = "2.12.14"
 
-ThisBuild / crossScalaVersions := Seq(Scala212, "2.13.5", "3.0.0-RC3")
+ThisBuild / crossScalaVersions := Seq(Scala212, "2.13.5", "3.0.0")
 ThisBuild / scalaVersion := Scala212
 
 val MicrositesCond = s"matrix.scala == '$Scala212'"
@@ -64,8 +64,8 @@ lazy val contributors = Seq(
   "ChristopherDavenport" -> "Christopher Davenport"
 )
 
-val catsV = "2.6.0"
-val disciplineScalatestVersion = "2.1.4"
+val catsV = "2.6.1"
+val disciplineScalatestVersion = "2.1.5"
 
 // General Settings
 lazy val commonSettings = Seq(
@@ -191,7 +191,7 @@ lazy val mimaSettings = {
     mimaFailOnNoPrevious := false,
     mimaFailOnProblem := mimaVersions(version.value).toList.headOption.isDefined,
     mimaPreviousArtifacts := {
-      if (scalaVersion.value.startsWith("3"))
+      if (scalaVersion.value.startsWith("3")) // TODO: remove Scala 3 exclusion after releasing for 3.0.0
         Set()
       else
         (mimaVersions(version.value) ++ extraVersions)
