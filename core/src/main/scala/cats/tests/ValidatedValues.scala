@@ -12,7 +12,7 @@ trait ValidatedValues {
      * @return the value of this Validated if it is Valid, else fail the test
      */
     def value: A = result match {
-      case Invalid(e: Throwable) => throw new TestFailedException(_ => Some(s"Validation failed"), Some(e), pos)
+      case Invalid(e: Throwable) => throw new TestFailedException(_ => Some("Validation failed"), Some(e), pos)
       case Invalid(e)            => throw new TestFailedException(_ => Some(s"Validation failed with $e"), None, pos)
       case Valid(a)              => a
     }
